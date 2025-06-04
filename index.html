@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Ecográfica - Clínica</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Header Principal -->
+    <header class="main-header">
+      <div class="header-content">
+        <div class="logo-section">
+          <i class="fas fa-heartbeat"></i>
+          <h1>EcoApp Clínica</h1>
+        </div>
+        <div class="header-subtitle">
+          Sistema de Informes Ecográficos
+        </div>
+      </div>
+    </header>
+
+    <!-- Sección de Login -->
+    <div id="login" class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <i class="fas fa-user-md"></i>
+          <h2>Acceso Médico</h2>
+          <p>Ingrese sus credenciales para continuar</p>
+        </div>
+        
+        <form class="login-form">
+          <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="text" id="username" placeholder="Usuario" required>
+          </div>
+
+          <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" placeholder="Contraseña" required>
+          </div>
+
+          <button type="button" id="loginBtn" class="btn-primary">
+            <i class="fas fa-sign-in-alt"></i>
+            Ingresar
+          </button>
+        </form>
+
+        <div class="login-footer">
+          <small>Usuarios de prueba: drperez/1234, dra.garcia/abcd</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Principal -->
+    <div id="dashboard" class="dashboard hidden">
+      <div class="dashboard-header">
+        <div class="welcome-section">
+          <h2>Bienvenido, <span id="doctorName" class="doctor-name"></span></h2>
+          <p>Seleccione el tipo de examen y complete los datos del paciente</p>
+        </div>
+        <button id="logoutBtn" class="btn-logout">
+          <i class="fas fa-sign-out-alt"></i>
+          Cerrar Sesión
+        </button>
+      </div>
+
+      <!-- Panel de Configuración -->
+      <div class="config-panel">
+        <div class="panel-section">
+          <h3><i class="fas fa-hospital"></i> Información de la Institución</h3>
+          <div class="form-group">
+            <input type="text" id="institucion" value="ESCUELA DE ULTRASONOGRAFÍA DE BOLIVIA-FUNCIPRO" class="form-control">
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3><i class="fas fa-user"></i> Datos del Paciente</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nombre y Apellidos</label>
+              <input type="text" id="pacienteNombre" class="form-control" placeholder="Ingrese nombre completo">
+            </div>
+            <div class="form-group">
+              <label>Edad</label>
+              <input type="text" id="pacienteEdad" class="form-control" placeholder="Años">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Sexo</label>
+              <select id="pacienteSexo" class="form-control">
+                <option value="MASCULINO">MASCULINO</option>
+                <option value="FEMENINO">FEMENINO</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Fecha de Informe</label>
+              <input type="date" id="fechaInforme" class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3><i class="fas fa-stethoscope"></i> Tipo de Examen</h3>
+          <div class="exam-selector">
+            <div class="exam-option" data-type="abdominal">
+              <i class="fas fa-user-circle"></i>
+              <h4>Ecografía Abdominal</h4>
+              <p>Examen completo de órganos abdominales</p>
+            </div>
+            <div class="exam-option" data-type="obstetrica-2do-3er">
+              <i class="fas fa-baby"></i>
+              <h4>Obstétrica 2do y 3er Trimestre</h4>
+              <p>Control prenatal avanzado</p>
+            </div>
+            <div class="exam-option" data-type="obstetrica-1er">
+              <i class="fas fa-heart"></i>
+              <h4>Obstétrica 1er Trimestre</h4>
+              <p>Control prenatal temprano</p>
+            </div>
+            <div class="exam-option" data-type="ginecologica">
+              <i class="fas fa-venus"></i>
+              <h4>Ecografía Ginecológica</h4>
+              <p>Examen del aparato reproductor femenino</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button id="generarPDFBtn" class="btn-primary" disabled>
+            <i class="fas fa-file-pdf"></i>
+            Generar PDF
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formularios de Exámenes -->
+    <div id="formularios" class="forms-container">
+      
+      <!-- Formulario Obstétrica 1er Trimestre -->
+      <div id="form-obstetrica-1er" class="form-exam hidden">
+        <div class="form-header">
+          <h2><i class="fas fa-heart"></i> ECOGRAFÍA OBSTÉTRICA 1ER TRIMESTRE</h2>
+        </div>
+        
+        <div class="form-content">
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-female"></i> ÚTERO (G)</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Miometrio:</label>
+                <input type="text" name="utero_miometrio" value="homogéneo" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Orificio Cervical Interno:</label>
+                <input type="text" name="utero_orificio" value="cerrado" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Longitud Cervical:</label>
+                <span class="input-with-unit">
+                  <input type="text" name="utero_longitud" value="conservada" class="form-input">
+                  <span>midiendo: <input type="text" name="utero_longitud_medida" class="input-small" value=""> mm.</span>
+                </span>
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="utero_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-baby"></i> PARÁMETROS OBSTÉTRICOS</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Saco Gestacional:</label>
+                <span class="input-with-unit">
+                  <input type="text" name="saco_presente" value="presente" class="form-input">
+                  <span>Número: <input type="text" name="saco_numero" class="input-small" value="1">
+                  midiendo (DMSG): <input type="text" name="saco_dmsg" class="input-small" value=""> mm.</span>
+                </span>
+              </div>
+              <div class="field-group">
+                <label>Vesícula Vitelina:</label>
+                <span class="input-with-unit">
+                  <input type="text" name="vesicula_presente" value="presente" class="form-input">
+                  <span>Número: <input type="text" name="vesicula_numero" class="input-small" value="1">
+                  midiendo: <input type="text" name="vesicula_medida" class="input-small" value="5.04"> mm.</span>
+                </span>
+              </div>
+              <div class="field-group">
+                <label>Embrión:</label>
+                <span class="input-with-unit">
+                  <input type="text" name="embrion_numero" value="Número" class="form-input">
+                  <input type="text" name="embrion_numero_val" class="input-small" value="1">
+                </span>
+              </div>
+              <div class="field-group">
+                <label>Diámetro céfalo-caudal (CRL):</label>
+                <span class="input-with-unit">
+                  <span>midiendo: <input type="text" name="crl_medida" class="input-small" value="2.2"> mm.
+                  Edad Gestacional: <input type="text" name="crl_eg" class="input-small" value="8.6"> semanas.</span>
+                </span>
+              </div>
+              <div class="field-group">
+                <label>Frecuencia Cardíaca:</label>
+                <span class="input-with-unit">
+                  <input type="text" name="fc_presente" value="presente" class="form-input">
+                  <span>mostrando: <input type="text" name="fc_valor" class="input-small" value="175"> Lpm.</span>
+                </span>
+              </div>
+              <div class="field-group">
+                <label>Translucencia Nucal (TN):</label>
+                <input type="text" name="tn_valor" value="no corresponde por edad gestacional" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Hueso Nasal:</label>
+                <input type="text" name="hueso_nasal" value="no corresponde por edad gestacional" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Cuerpo Lúteo:</label>
+                <input type="text" name="cuerpo_luteo" value="presente en anexo derecho" class="form-input">
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="parametros_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-circle"></i> CORION FRONDOSO (placenta)</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Posición:</label>
+                <input type="text" name="corion_posicion" value="posterior" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Área de Desprendimiento:</label>
+                <input type="text" name="corion_desprendimiento" value="ausente" class="form-input">
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="corion_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulario Obstétrica 2do y 3er Trimestre -->
+      <div id="form-obstetrica-2do-3er" class="form-exam hidden">
+        <div class="form-header">
+          <h2><i class="fas fa-baby"></i> ECOGRAFÍA OBSTÉTRICA 2DO Y 3ER TRIMESTRE</h2>
+        </div>
+        
+        <div class="form-content">
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-child"></i> FETO</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Número de Fetos:</label>
+                <input type="text" name="feto_numero" value="uno" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Presentación Fetal:</label>
+                <input type="text" name="feto_presentacion" value="transversa" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Situación Fetal:</label>
+                <input type="text" name="feto_situacion" value="transversal" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Posición Fetal:</label>
+                <input type="text" name="feto_posicion" value="dorso lateral izquierdo" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Movimientos Fetales:</label>
+                <input type="text" name="feto_movimientos" value="presentes" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Frecuencia Cardíaca:</label>
+                <span class="input-with-unit">
+                  <input type="text" name="feto_fc" value="presente" class="form-input">
+                  <span>mostrando: <input type="text" name="feto_fc_valor" class="input-small" value="152"> Lat/min.</span>
+                </span>
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="feto_observacion" value="NINGUNA" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-ruler"></i> BIOMETRÍA FETAL</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Parámetros Fetales:</label>
+              </div>
+              <div class="field-group">
+                <span>Diámetro Biparietal (DBP): <input type="text" name="biometria_dbp" class="input-small" value="29.92"> mm.</span>
+              </div>
+              <div class="field-group">
+                <span>Circunferencia Craneana (CC): <input type="text" name="biometria_cc" class="input-small" value="37.65"> mm.</span>
+              </div>
+              <div class="field-group">
+                <span>Circunferencia Abdominal (CA): <input type="text" name="biometria_ca" class="input-small" value="101.47"> mm.</span>
+              </div>
+              <div class="field-group">
+                <span>Longitud de Fémur (LF): <input type="text" name="biometria_lf" class="input-small" value="19.09"> mm.</span>
+              </div>
+              <div class="field-group">
+                <span>Edad Gestacional: <input type="text" name="biometria_eg" class="input-small" value="15.4"> semanas.</span>
+              </div>
+              <div class="field-group">
+                <span>Peso: <input type="text" name="biometria_peso" value="gramos."></span>
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="biometria_observacion" value="NINGUNA" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-circle"></i> PLACENTA</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Posición Placentaria:</label>
+                <input type="text" name="placenta_posicion" value="placenta posterior" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Inserción Placentaria:</label>
+                <input type="text" name="placenta_insercion" value="inserción típica distal al OCI" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Grado de Madurez:</label>
+                <input type="text" name="placenta_grado" value="grado 0" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Grosor placentario:</label>
+                <span class="input-with-unit">
+                  <input type="text" name="placenta_grosor" value="midiendo" class="form-input">
+                  <span><input type="text" name="placenta_grosor_valor" class="input-small" value="47.09"> mm.</span>
+                </span>
+              </div>
+              <div class="field-group">
+                <label>Área de Desprendimiento:</label>
+                <input type="text" name="placenta_desprendimiento" value="ausente" class="form-input">
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="placenta_observacion" value="NINGUNA" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-link"></i> CORDÓN UMBILICAL</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Número de Vasos:</label>
+                <input type="text" name="cordon_vasos" value="dos arterias y una vena" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Inserción de Cordón:</label>
+                <input type="text" name="cordon_insercion" value="inserción central" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Circular de Cordón:</label>
+                <input type="text" name="cordon_circular" value="ausente" class="form-input">
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="cordon_observacion" value="NINGUNA" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-tint"></i> LÍQUIDO AMNIÓTICO</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Cantidad de Líquido:</label>
+                <span class="input-with-unit">
+                  <input type="text" name="liquido_cantidad" value="adecuada" class="form-input">
+                  <span>ILA: <input type="text" name="liquido_ila" class="input-small" value="39.20"> cm. Mayor Bolsón: <input type="text" name="liquido_bolson" class="input-small" value=""> cm.</span>
+                </span>
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="liquido_observacion" value="NINGUNA" class="form-input">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulario Abdominal -->
+      <div id="form-abdominal" class="form-exam hidden">
+        <div class="form-header">
+          <h2><i class="fas fa-user-circle"></i> ECOGRAFÍA ABDOMINAL</h2>
+        </div>
+        
+        <div class="form-content">
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-liver"></i> HÍGADO</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Ecogenicidad:</label>
+                <input type="text" name="higado_ecogenicidad" value="conservada" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Eco-textura de parénquima:</label>
+                <input type="text" name="higado_ecotextura" value="homogénea" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Dimensiones Hepáticas:</label>
+                <input type="text" name="higado_dimensiones" value="conservadas" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Medidas hepáticas:</label>
+                <span class="input-with-unit">
+                  <span>lóbulo derecho: <input type="text" name="higado_lobulo_derecho" class="input-small" value="10.9"> cm. lóbulo izquierdo: <input type="text" name="higado_lobulo_izquierdo" class="input-small" value="8.6"> cm.</span>
+                </span>
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="higado_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-project-diagram"></i> VÍAS BILIARES</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Intra-Hepáticas:</label>
+                <input type="text" name="vias_intrahep" value="de aspecto Habitual" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Conducto Colédoco:</label>
+                <span class="input-with-unit">
+                  <input type="text" name="vias_coledoco" value="conservado" class="form-input">
+                  <span>midiendo: <input type="text" name="vias_coledoco_medida" class="input-small" value="3.6"> mm.</span>
+                </span>
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="vias_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-prescription-bottle"></i> VESÍCULA BILIAR</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Paredes:</label>
+                <span class="input-with-unit">
+                  <input type="text" name="vesicula_paredes" value="finas" class="form-input">
+                  <span>midiendo: <input type="text" name="vesicula_paredes_medida" class="input-small" value="1.9"> mm.</span>
+                </span>
+              </div>
+              <div class="field-group">
+                <label>Contenido:</label>
+                <input type="text" name="vesicula_contenido" value="anecoico" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Medidas:</label>
+                <span class="input-with-unit">
+                  <span>longitudinal: <input type="text" name="vesicula_long" class="input-small" value="4.4"> cm. antero-posterior: <input type="text" name="vesicula_ap" class="input-small" value="1.9"> cm. transversal: <input type="text" name="vesicula_trans" class="input-small" value="2.4"> cm. volumen: <input type="text" name="vesicula_vol" class="input-small" value="11"> cm3.</span>
+                </span>
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="vesicula_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-bread-slice"></i> PÁNCREAS</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Ecogenicidad:</label>
+                <input type="text" name="pancreas_ecogenicidad" value="conservada" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Eco-textura de parénquima:</label>
+                <input type="text" name="pancreas_ecotextura" value="homogénea" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Conducto de Wirsung:</label>
+                <span class="input-with-unit">
+                  <input type="text" name="pancreas_wirsung" value="conservado" class="form-input">
+                  <span>midiendo: <input type="text" name="pancreas_wirsung_medida" class="input-small" value=""> mm.</span>
+                </span>
+              </div>
+              <div class="field-group">
+                <label>Dimensiones Pancreáticas:</label>
+                <input type="text" name="pancreas_dimensiones" value="conservadas" class="form-input">
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="pancreas_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-hockey-puck"></i> BAZO</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Ecogenicidad:</label>
+                <input type="text" name="bazo_ecogenicidad" value="conservada" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Eco-textura de parénquima:</label>
+                <input type="text" name="bazo_ecotextura" value="homogénea" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Dimensiones Esplénicas:</label>
+                <input type="text" name="bazo_dimensiones" value="conservadas" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Medidas esplénicas:</label>
+                <span class="input-with-unit">
+                  <span>longitudinal: <input type="text" name="bazo_long" class="input-small" value="9.5"> cm. antero-posterior: <input type="text" name="bazo_ap" class="input-small" value=""> cm.</span>
+                </span>
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="bazo_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-kidney"></i> RIÑÓN DERECHO</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Ecogenicidad:</label>
+                <input type="text" name="rinon_der_ecogenicidad" value="conservada" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Diferenciación Córtico-medular:</label>
+                <input type="text" name="rinon_der_diferenciacion" value="conservada" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Dimensiones renales:</label>
+                <input type="text" name="rinon_der_dimensiones" value="conservadas" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Medidas:</label>
+                <span class="input-with-unit">
+                  <span>longitudinal: <input type="text" name="rinon_der_long" class="input-small" value="9.1"> cm. antero-posterior: <input type="text" name="rinon_der_ap" class="input-small" value="4"> cm. transversal: <input type="text" name="rinon_der_trans" class="input-small" value="4.7"> cm. volumen: <input type="text" name="rinon_der_vol" class="input-small" value="91.9"> cm3.</span>
+                </span>
+              </div>
+              <div class="field-group">
+                <label>Parénquima renal (corteza/pirámide):</label>
+                <span class="input-with-unit">
+                  <span>midiendo: <input type="text" name="rinon_der_parenquima" class="input-small" value="16.5"> mm.</span>
+                </span>
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="rinon_der_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-kidney"></i> RIÑÓN IZQUIERDO</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Ecogenicidad:</label>
+                <input type="text" name="rinon_izq_ecogenicidad" value="conservada" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Diferenciación Córtico-medular:</label>
+                <input type="text" name="rinon_izq_diferenciacion" value="conservada" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Dimensiones renales:</label>
+                <input type="text" name="rinon_izq_dimensiones" value="conservadas" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Medidas:</label>
+                <span class="input-with-unit">
+                  <span>longitudinal: <input type="text" name="rinon_izq_long" class="input-small" value="10.8"> cm. antero-posterior: <input type="text" name="rinon_izq_ap" class="input-small" value="4.5"> cm. transversal: <input type="text" name="rinon_izq_trans" class="input-small" value="4.5"> cm. volumen: <input type="text" name="rinon_izq_vol" class="input-small" value="117.3"> cm3.</span>
+                </span>
+              </div>
+              <div class="field-group">
+                <label>Parénquima renal (corteza/pirámide):</label>
+                <span class="input-with-unit">
+                  <span>midiendo: <input type="text" name="rinon_izq_parenquima" class="input-small" value="17.2"> mm.</span>
+                </span>
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="rinon_izq_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-toilet"></i> VEJIGA</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Paredes:</label>
+                <span class="input-with-unit">
+                  <input type="text" name="vejiga_paredes" value="finas" class="form-input">
+                  <span>midiendo: <input type="text" name="vejiga_paredes_medida" class="input-small" value="3.7"> mm.</span>
+                </span>
+              </div>
+              <div class="field-group">
+                <label>Contenido:</label>
+                <input type="text" name="vejiga_contenido" value="anecoico" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Jet Urinarios:</label>
+                <input type="text" name="vejiga_jet" value="no visualizados" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Volumen Miccional:</label>
+                <span class="input-with-unit">
+                  <span>Pre-miccional: <input type="text" name="vejiga_vol_pre" class="input-small" value=""> cm3. Post-miccional: <input type="text" name="vejiga_vol_post" class="input-small" value=""> cm3.</span>
+                </span>
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="vejiga_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-wave-square"></i> GRANDES VASOS ABDOMINALES</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Aorta Abdominal:</label>
+                <span class="input-with-unit">
+                  <span>midiendo: <input type="text" name="vasos_aorta_medida" class="input-small" value=""> mm.</span>
+                </span>
+              </div>
+              <div class="field-group">
+                <label>Vena Cava Inferior:</label>
+                <span class="input-with-unit">
+                  <input type="text" name="vasos_cava" value="de aspecto Habitual" class="form-input">
+                  <span>midiendo: <input type="text" name="vasos_cava_medida" class="input-small" value="16.0"> mm.</span>
+                </span>
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="vasos_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulario Ginecológica -->
+      <div id="form-ginecologica" class="form-exam hidden">
+        <div class="form-header">
+          <h2><i class="fas fa-venus"></i> ECOGRAFÍA GINECOLÓGICA</h2>
+        </div>
+        
+        <div class="form-content">
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-female"></i> ÚTERO</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Posición uterina:</label>
+                <input type="text" name="utero_posicion" value="antero-versión" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Eco-textura de parénquima:</label>
+                <input type="text" name="utero_ecotextura" value="homogénea" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Medidas:</label>
+                <span class="input-with-unit">
+                  <span>longitudinal: <input type="text" name="utero_long" class="input-small" value="6"> cm. antero-posterior: <input type="text" name="utero_ap" class="input-small" value="4.2"> cm. transversal: <input type="text" name="utero_trans" class="input-small" value="2.7"> cm. volumen: <input type="text" name="utero_vol" class="input-small" value="5.29"> cm3.</span>
+                </span>
+              </div>
+              <div class="field-group">
+                <label>Endometrio:</label>
+                <span class="input-with-unit">
+                  <input type="text" name="utero_endometrio" value="fino" class="form-input">
+                  <span>midiendo: <input type="text" name="utero_endometrio_medida" class="input-small" value=""> mm.</span>
+                </span>
+              </div>
+              <div class="field-group">
+                <label>Fondo de saco de Douglas:</label>
+                <input type="text" name="utero_douglas" value="libre" class="form-input">
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="utero_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-wind"></i> TROMPAS DE FALOPIO</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Trompa derecha:</label>
+                <input type="text" name="trompas_derecha" value="no visualizada" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Trompa izquierda:</label>
+                <input type="text" name="trompas_izquierda" value="no visualizada" class="form-input">
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="trompas_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-circle"></i> OVARIO DERECHO</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Posición de ovario:</label>
+                <input type="text" name="ovario_der_posicion" value="para-uterino" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Eco-textura de parénquima:</label>
+                <input type="text" name="ovario_der_ecotextura" value="homogénea" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Medidas:</label>
+                <span class="input-with-unit">
+                  <span>longitudinal: <input type="text" name="ovario_der_long" class="input-small" value="3.2"> cm. antero-posterior: <input type="text" name="ovario_der_ap" class="input-small" value="2.1"> cm. transversal: <input type="text" name="ovario_der_trans" class="input-small" value="1.6"> cm. volumen: <input type="text" name="ovario_der_vol" class="input-small" value="5.6"> cm3.</span>
+                </span>
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="ovario_der_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-circle"></i> OVARIO IZQUIERDO</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <label>Posición de ovario:</label>
+                <input type="text" name="ovario_izq_posicion" value="para-uterino" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Eco-textura de parénquima:</label>
+                <input type="text" name="ovario_izq_ecotextura" value="homogénea" class="form-input">
+              </div>
+              <div class="field-group">
+                <label>Medidas:</label>
+                <span class="input-with-unit">
+                  <span>longitudinal: <input type="text" name="ovario_izq_long" class="input-small" value="3.1"> cm. antero-posterior: <input type="text" name="ovario_izq_ap" class="input-small" value="2.0"> cm. transversal: <input type="text" name="ovario_izq_trans" class="input-small" value="1.5"> cm. volumen: <input type="text" name="ovario_izq_vol" class="input-small" value="4.9"> cm3.</span>
+                </span>
+              </div>
+              <div class="field-group observation">
+                <label>OBSERVACIÓN:</label>
+                <input type="text" name="ovario_izq_observacion" value="Ninguna" class="form-input">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de Conclusión -->
+    <div id="conclusion" class="conclusion-section hidden">
+      <div class="conclusion-card">
+        <div class="conclusion-header">
+          <h3><i class="fas fa-clipboard-check"></i> Hipótesis / Conclusión</h3>
+        </div>
+        <div class="conclusion-body">
+          <textarea id="hipotesis" rows="4" placeholder="Ingrese la conclusión del estudio..." class="conclusion-textarea"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay hidden">
+    <div class="loading-content">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>Generando PDF...</p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
