@@ -130,13 +130,6 @@
             </div>
           </div>
         </div>
-
-        <div class="action-buttons">
-          <button id="generarPDFBtn" class="btn-primary" disabled>
-            <i class="fas fa-file-pdf"></i>
-            Generar PDF
-          </button>
-        </div>
       </div>
     </div>
 
@@ -152,40 +145,40 @@
         <div class="form-content">
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-female"></i> ÚTERO (G)</h3>
+              <h3><i class="fas fa-female"></i> ÚTERO (G) <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Miometrio:</label>
-                <input type="text" name="utero_miometrio" value="homogéneo" class="form-input">
+                <input type="text" name="utero_miometrio" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Orificio Cervical Interno:</label>
-                <input type="text" name="utero_orificio" value="cerrado" class="form-input">
+                <input type="text" name="utero_orificio" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Longitud Cervical:</label>
                 <span class="input-with-unit">
-                  <input type="text" name="utero_longitud" value="conservada" class="form-input">
+                  <input type="text" name="utero_longitud" value="" class="form-input">
                   <span>midiendo: <input type="text" name="utero_longitud_medida" class="input-small" value=""> mm.</span>
                 </span>
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="utero_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="utero_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-baby"></i> PARÁMETROS OBSTÉTRICOS</h3>
+              <h3><i class="fas fa-baby"></i> PARÁMETROS OBSTÉTRICOS <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Saco Gestacional:</label>
                 <span class="input-with-unit">
-                  <input type="text" name="saco_presente" value="presente" class="form-input">
+                  <input type="text" name="saco_presente" value="" class="form-input">
                   <span>Número: <input type="text" name="saco_numero" class="input-small" value="1">
                   midiendo (DMSG): <input type="text" name="saco_dmsg" class="input-small" value=""> mm.</span>
                 </span>
@@ -193,67 +186,67 @@
               <div class="field-group">
                 <label>Vesícula Vitelina:</label>
                 <span class="input-with-unit">
-                  <input type="text" name="vesicula_presente" value="presente" class="form-input">
+                  <input type="text" name="vesicula_presente" value="" class="form-input">
                   <span>Número: <input type="text" name="vesicula_numero" class="input-small" value="1">
-                  midiendo: <input type="text" name="vesicula_medida" class="input-small" value="5.04"> mm.</span>
+                  midiendo: <input type="text" name="vesicula_medida" class="input-small" value=""> mm.</span>
                 </span>
               </div>
               <div class="field-group">
                 <label>Embrión:</label>
                 <span class="input-with-unit">
-                  <input type="text" name="embrion_numero" value="Número" class="form-input">
-                  <input type="text" name="embrion_numero_val" class="input-small" value="1">
+                  <span>Número: <input type="text" name="embrion_numero_val" class="input-small" value="1"></span>
+                  <button type="button" class="add-feto no-print"><i class="fas fa-plus"></i> Agregar Feto</button>
                 </span>
               </div>
               <div class="field-group">
                 <label>Diámetro céfalo-caudal (CRL):</label>
                 <span class="input-with-unit">
-                  <span>midiendo: <input type="text" name="crl_medida" class="input-small" value="2.2"> mm.
-                  Edad Gestacional: <input type="text" name="crl_eg" class="input-small" value="8.6"> semanas.</span>
+                  <span>midiendo: <input type="text" name="crl_medida" class="input-small" value=""> mm.
+                  Edad Gestacional: <input type="text" name="crl_eg" class="input-small" value=""> semanas.</span>
                 </span>
               </div>
               <div class="field-group">
                 <label>Frecuencia Cardíaca:</label>
                 <span class="input-with-unit">
-                  <input type="text" name="fc_presente" value="presente" class="form-input">
-                  <span>mostrando: <input type="text" name="fc_valor" class="input-small" value="175"> Lpm.</span>
+                  <input type="text" name="fc_presente" value="" class="form-input">
+                  <span>mostrando: <input type="text" name="fc_valor" class="input-small" value=""> Lpm.</span>
                 </span>
               </div>
               <div class="field-group">
                 <label>Translucencia Nucal (TN):</label>
-                <input type="text" name="tn_valor" value="no corresponde por edad gestacional" class="form-input">
+                <input type="text" name="tn_valor" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Hueso Nasal:</label>
-                <input type="text" name="hueso_nasal" value="no corresponde por edad gestacional" class="form-input">
+                <input type="text" name="hueso_nasal" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Cuerpo Lúteo:</label>
-                <input type="text" name="cuerpo_luteo" value="presente en anexo derecho" class="form-input">
+                <input type="text" name="cuerpo_luteo" value="" class="form-input">
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="parametros_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="parametros_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-circle"></i> CORION FRONDOSO (placenta)</h3>
+              <h3><i class="fas fa-circle"></i> CORION FRONDOSO (placenta) <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Posición:</label>
-                <input type="text" name="corion_posicion" value="posterior" class="form-input">
+                <input type="text" name="corion_posicion" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Área de Desprendimiento:</label>
-                <input type="text" name="corion_desprendimiento" value="ausente" class="form-input">
+                <input type="text" name="corion_desprendimiento" value="" class="form-input">
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="corion_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="corion_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
@@ -269,150 +262,151 @@
         <div class="form-content">
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-child"></i> FETO</h3>
+              <h3><i class="fas fa-child"></i> FETO <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Número de Fetos:</label>
                 <input type="text" name="feto_numero" value="uno" class="form-input">
+                <button type="button" class="add-feto"><i class="fas fa-plus"></i> Agregar Feto</button>
               </div>
               <div class="field-group">
                 <label>Presentación Fetal:</label>
-                <input type="text" name="feto_presentacion" value="transversa" class="form-input">
+                <input type="text" name="feto_presentacion" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Situación Fetal:</label>
-                <input type="text" name="feto_situacion" value="transversal" class="form-input">
+                <input type="text" name="feto_situacion" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Posición Fetal:</label>
-                <input type="text" name="feto_posicion" value="dorso lateral izquierdo" class="form-input">
+                <input type="text" name="feto_posicion" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Movimientos Fetales:</label>
-                <input type="text" name="feto_movimientos" value="presentes" class="form-input">
+                <input type="text" name="feto_movimientos" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Frecuencia Cardíaca:</label>
                 <span class="input-with-unit">
-                  <input type="text" name="feto_fc" value="presente" class="form-input">
-                  <span>mostrando: <input type="text" name="feto_fc_valor" class="input-small" value="152"> Lat/min.</span>
+                  <input type="text" name="feto_fc" value="" class="form-input">
+                  <span>mostrando: <input type="text" name="feto_fc_valor" class="input-small" value=""> Lat/min.</span>
                 </span>
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="feto_observacion" value="NINGUNA" class="form-input">
+                <input type="text" name="feto_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-ruler"></i> BIOMETRÍA FETAL</h3>
+              <h3><i class="fas fa-ruler"></i> BIOMETRÍA FETAL <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Parámetros Fetales:</label>
               </div>
               <div class="field-group">
-                <span>Diámetro Biparietal (DBP): <input type="text" name="biometria_dbp" class="input-small" value="29.92"> mm.</span>
+                <span>Diámetro Biparietal (DBP): <input type="text" name="biometria_dbp" class="input-small" value=""> mm.</span>
               </div>
               <div class="field-group">
-                <span>Circunferencia Craneana (CC): <input type="text" name="biometria_cc" class="input-small" value="37.65"> mm.</span>
+                <span>Circunferencia Craneana (CC): <input type="text" name="biometria_cc" class="input-small" value=""> mm.</span>
               </div>
               <div class="field-group">
-                <span>Circunferencia Abdominal (CA): <input type="text" name="biometria_ca" class="input-small" value="101.47"> mm.</span>
+                <span>Circunferencia Abdominal (CA): <input type="text" name="biometria_ca" class="input-small" value=""> mm.</span>
               </div>
               <div class="field-group">
-                <span>Longitud de Fémur (LF): <input type="text" name="biometria_lf" class="input-small" value="19.09"> mm.</span>
+                <span>Longitud de Fémur (LF): <input type="text" name="biometria_lf" class="input-small" value=""> mm.</span>
               </div>
               <div class="field-group">
-                <span>Edad Gestacional: <input type="text" name="biometria_eg" class="input-small" value="15.4"> semanas.</span>
+                <span>Edad Gestacional: <input type="text" name="biometria_eg" class="input-small" value=""> semanas.</span>
               </div>
               <div class="field-group">
-                <span>Peso: <input type="text" name="biometria_peso" value="gramos."></span>
+                <span>Peso: <input type="text" name="biometria_peso" value=""></span>
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="biometria_observacion" value="NINGUNA" class="form-input">
+                <input type="text" name="biometria_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-circle"></i> PLACENTA</h3>
+              <h3><i class="fas fa-circle"></i> PLACENTA <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Posición Placentaria:</label>
-                <input type="text" name="placenta_posicion" value="placenta posterior" class="form-input">
+                <input type="text" name="placenta_posicion" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Inserción Placentaria:</label>
-                <input type="text" name="placenta_insercion" value="inserción típica distal al OCI" class="form-input">
+                <input type="text" name="placenta_insercion" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Grado de Madurez:</label>
-                <input type="text" name="placenta_grado" value="grado 0" class="form-input">
+                <input type="text" name="placenta_grado" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Grosor placentario:</label>
                 <span class="input-with-unit">
                   <input type="text" name="placenta_grosor" value="midiendo" class="form-input">
-                  <span><input type="text" name="placenta_grosor_valor" class="input-small" value="47.09"> mm.</span>
+                  <span><input type="text" name="placenta_grosor_valor" class="input-small" value=""> mm.</span>
                 </span>
               </div>
               <div class="field-group">
                 <label>Área de Desprendimiento:</label>
-                <input type="text" name="placenta_desprendimiento" value="ausente" class="form-input">
+                <input type="text" name="placenta_desprendimiento" value="" class="form-input">
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="placenta_observacion" value="NINGUNA" class="form-input">
+                <input type="text" name="placenta_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-link"></i> CORDÓN UMBILICAL</h3>
+              <h3><i class="fas fa-link"></i> CORDÓN UMBILICAL <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Número de Vasos:</label>
-                <input type="text" name="cordon_vasos" value="dos arterias y una vena" class="form-input">
+                <input type="text" name="cordon_vasos" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Inserción de Cordón:</label>
-                <input type="text" name="cordon_insercion" value="inserción central" class="form-input">
+                <input type="text" name="cordon_insercion" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Circular de Cordón:</label>
-                <input type="text" name="cordon_circular" value="ausente" class="form-input">
+                <input type="text" name="cordon_circular" value="" class="form-input">
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="cordon_observacion" value="NINGUNA" class="form-input">
+                <input type="text" name="cordon_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-tint"></i> LÍQUIDO AMNIÓTICO</h3>
+              <h3><i class="fas fa-tint"></i> LÍQUIDO AMNIÓTICO <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Cantidad de Líquido:</label>
                 <span class="input-with-unit">
-                  <input type="text" name="liquido_cantidad" value="adecuada" class="form-input">
-                  <span>ILA: <input type="text" name="liquido_ila" class="input-small" value="39.20"> cm. Mayor Bolsón: <input type="text" name="liquido_bolson" class="input-small" value=""> cm.</span>
+                  <input type="text" name="liquido_cantidad" value="" class="form-input">
+                  <span>ILA: <input type="text" name="liquido_ila" class="input-small" value=""> cm. Mayor Bolsón: <input type="text" name="liquido_bolson" class="input-small" value=""> cm.</span>
                 </span>
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="liquido_observacion" value="NINGUNA" class="form-input">
+                <input type="text" name="liquido_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
@@ -428,238 +422,238 @@
         <div class="form-content">
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-liver"></i> HÍGADO</h3>
+              <h3><i class="fas fa-liver"></i> HÍGADO <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Ecogenicidad:</label>
-                <input type="text" name="higado_ecogenicidad" value="conservada" class="form-input">
+                <input type="text" name="higado_ecogenicidad" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Eco-textura de parénquima:</label>
-                <input type="text" name="higado_ecotextura" value="homogénea" class="form-input">
+                <input type="text" name="higado_ecotextura" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Dimensiones Hepáticas:</label>
-                <input type="text" name="higado_dimensiones" value="conservadas" class="form-input">
+                <input type="text" name="higado_dimensiones" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Medidas hepáticas:</label>
                 <span class="input-with-unit">
-                  <span>lóbulo derecho: <input type="text" name="higado_lobulo_derecho" class="input-small" value="10.9"> cm. lóbulo izquierdo: <input type="text" name="higado_lobulo_izquierdo" class="input-small" value="8.6"> cm.</span>
+                  <span>lóbulo derecho: <input type="text" name="higado_lobulo_derecho" class="input-small" value=""> cm. lóbulo izquierdo: <input type="text" name="higado_lobulo_izquierdo" class="input-small" value=""> cm.</span>
                 </span>
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="higado_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="higado_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-project-diagram"></i> VÍAS BILIARES</h3>
+              <h3><i class="fas fa-project-diagram"></i> VÍAS BILIARES <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Intra-Hepáticas:</label>
-                <input type="text" name="vias_intrahep" value="de aspecto Habitual" class="form-input">
+                <input type="text" name="vias_intrahep" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Conducto Colédoco:</label>
                 <span class="input-with-unit">
-                  <input type="text" name="vias_coledoco" value="conservado" class="form-input">
-                  <span>midiendo: <input type="text" name="vias_coledoco_medida" class="input-small" value="3.6"> mm.</span>
+                  <input type="text" name="vias_coledoco" value="" class="form-input">
+                  <span>midiendo: <input type="text" name="vias_coledoco_medida" class="input-small" value=""> mm.</span>
                 </span>
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="vias_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="vias_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-prescription-bottle"></i> VESÍCULA BILIAR</h3>
+              <h3><i class="fas fa-prescription-bottle"></i> VESÍCULA BILIAR <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Paredes:</label>
                 <span class="input-with-unit">
-                  <input type="text" name="vesicula_paredes" value="finas" class="form-input">
-                  <span>midiendo: <input type="text" name="vesicula_paredes_medida" class="input-small" value="1.9"> mm.</span>
+                  <input type="text" name="vesicula_paredes" value="" class="form-input">
+                  <span>midiendo: <input type="text" name="vesicula_paredes_medida" class="input-small" value=""> mm.</span>
                 </span>
               </div>
               <div class="field-group">
                 <label>Contenido:</label>
-                <input type="text" name="vesicula_contenido" value="anecoico" class="form-input">
+                <input type="text" name="vesicula_contenido" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Medidas:</label>
                 <span class="input-with-unit">
-                  <span>longitudinal: <input type="text" name="vesicula_long" class="input-small" value="4.4"> cm. antero-posterior: <input type="text" name="vesicula_ap" class="input-small" value="1.9"> cm. transversal: <input type="text" name="vesicula_trans" class="input-small" value="2.4"> cm. volumen: <input type="text" name="vesicula_vol" class="input-small" value="11"> cm3.</span>
+                  <span>longitudinal: <input type="text" name="vesicula_long" class="input-small" value=""> cm. antero-posterior: <input type="text" name="vesicula_ap" class="input-small" value=""> cm. transversal: <input type="text" name="vesicula_trans" class="input-small" value=""> cm. volumen: <input type="text" name="vesicula_vol" class="input-small" value=""> cm3.</span>
                 </span>
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="vesicula_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="vesicula_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-bread-slice"></i> PÁNCREAS</h3>
+              <h3><i class="fas fa-bread-slice"></i> PÁNCREAS <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Ecogenicidad:</label>
-                <input type="text" name="pancreas_ecogenicidad" value="conservada" class="form-input">
+                <input type="text" name="pancreas_ecogenicidad" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Eco-textura de parénquima:</label>
-                <input type="text" name="pancreas_ecotextura" value="homogénea" class="form-input">
+                <input type="text" name="pancreas_ecotextura" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Conducto de Wirsung:</label>
                 <span class="input-with-unit">
-                  <input type="text" name="pancreas_wirsung" value="conservado" class="form-input">
+                  <input type="text" name="pancreas_wirsung" value="" class="form-input">
                   <span>midiendo: <input type="text" name="pancreas_wirsung_medida" class="input-small" value=""> mm.</span>
                 </span>
               </div>
               <div class="field-group">
                 <label>Dimensiones Pancreáticas:</label>
-                <input type="text" name="pancreas_dimensiones" value="conservadas" class="form-input">
+                <input type="text" name="pancreas_dimensiones" value="" class="form-input">
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="pancreas_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="pancreas_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-hockey-puck"></i> BAZO</h3>
+              <h3><i class="fas fa-hockey-puck"></i> BAZO <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Ecogenicidad:</label>
-                <input type="text" name="bazo_ecogenicidad" value="conservada" class="form-input">
+                <input type="text" name="bazo_ecogenicidad" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Eco-textura de parénquima:</label>
-                <input type="text" name="bazo_ecotextura" value="homogénea" class="form-input">
+                <input type="text" name="bazo_ecotextura" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Dimensiones Esplénicas:</label>
-                <input type="text" name="bazo_dimensiones" value="conservadas" class="form-input">
+                <input type="text" name="bazo_dimensiones" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Medidas esplénicas:</label>
                 <span class="input-with-unit">
-                  <span>longitudinal: <input type="text" name="bazo_long" class="input-small" value="9.5"> cm. antero-posterior: <input type="text" name="bazo_ap" class="input-small" value=""> cm.</span>
+                  <span>longitudinal: <input type="text" name="bazo_long" class="input-small" value=""> cm. antero-posterior: <input type="text" name="bazo_ap" class="input-small" value=""> cm.</span>
                 </span>
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="bazo_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="bazo_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-kidney"></i> RIÑÓN DERECHO</h3>
+              <h3><i class="fas fa-kidney"></i> RIÑÓN DERECHO <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Ecogenicidad:</label>
-                <input type="text" name="rinon_der_ecogenicidad" value="conservada" class="form-input">
+                <input type="text" name="rinon_der_ecogenicidad" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Diferenciación Córtico-medular:</label>
-                <input type="text" name="rinon_der_diferenciacion" value="conservada" class="form-input">
+                <input type="text" name="rinon_der_diferenciacion" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Dimensiones renales:</label>
-                <input type="text" name="rinon_der_dimensiones" value="conservadas" class="form-input">
+                <input type="text" name="rinon_der_dimensiones" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Medidas:</label>
                 <span class="input-with-unit">
-                  <span>longitudinal: <input type="text" name="rinon_der_long" class="input-small" value="9.1"> cm. antero-posterior: <input type="text" name="rinon_der_ap" class="input-small" value="4"> cm. transversal: <input type="text" name="rinon_der_trans" class="input-small" value="4.7"> cm. volumen: <input type="text" name="rinon_der_vol" class="input-small" value="91.9"> cm3.</span>
+                  <span>longitudinal: <input type="text" name="rinon_der_long" class="input-small" value=""> cm. antero-posterior: <input type="text" name="rinon_der_ap" class="input-small" value=""> cm. transversal: <input type="text" name="rinon_der_trans" class="input-small" value=""> cm. volumen: <input type="text" name="rinon_der_vol" class="input-small" value=""> cm3.</span>
                 </span>
               </div>
               <div class="field-group">
                 <label>Parénquima renal (corteza/pirámide):</label>
                 <span class="input-with-unit">
-                  <span>midiendo: <input type="text" name="rinon_der_parenquima" class="input-small" value="16.5"> mm.</span>
+                  <span>midiendo: <input type="text" name="rinon_der_parenquima" class="input-small" value=""> mm.</span>
                 </span>
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="rinon_der_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="rinon_der_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-kidney"></i> RIÑÓN IZQUIERDO</h3>
+              <h3><i class="fas fa-kidney"></i> RIÑÓN IZQUIERDO <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Ecogenicidad:</label>
-                <input type="text" name="rinon_izq_ecogenicidad" value="conservada" class="form-input">
+                <input type="text" name="rinon_izq_ecogenicidad" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Diferenciación Córtico-medular:</label>
-                <input type="text" name="rinon_izq_diferenciacion" value="conservada" class="form-input">
+                <input type="text" name="rinon_izq_diferenciacion" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Dimensiones renales:</label>
-                <input type="text" name="rinon_izq_dimensiones" value="conservadas" class="form-input">
+                <input type="text" name="rinon_izq_dimensiones" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Medidas:</label>
                 <span class="input-with-unit">
-                  <span>longitudinal: <input type="text" name="rinon_izq_long" class="input-small" value="10.8"> cm. antero-posterior: <input type="text" name="rinon_izq_ap" class="input-small" value="4.5"> cm. transversal: <input type="text" name="rinon_izq_trans" class="input-small" value="4.5"> cm. volumen: <input type="text" name="rinon_izq_vol" class="input-small" value="117.3"> cm3.</span>
+                  <span>longitudinal: <input type="text" name="rinon_izq_long" class="input-small" value=""> cm. antero-posterior: <input type="text" name="rinon_izq_ap" class="input-small" value=""> cm. transversal: <input type="text" name="rinon_izq_trans" class="input-small" value=""> cm. volumen: <input type="text" name="rinon_izq_vol" class="input-small" value=""> cm3.</span>
                 </span>
               </div>
               <div class="field-group">
                 <label>Parénquima renal (corteza/pirámide):</label>
                 <span class="input-with-unit">
-                  <span>midiendo: <input type="text" name="rinon_izq_parenquima" class="input-small" value="17.2"> mm.</span>
+                  <span>midiendo: <input type="text" name="rinon_izq_parenquima" class="input-small" value=""> mm.</span>
                 </span>
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="rinon_izq_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="rinon_izq_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-toilet"></i> VEJIGA</h3>
+              <h3><i class="fas fa-toilet"></i> VEJIGA <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Paredes:</label>
                 <span class="input-with-unit">
-                  <input type="text" name="vejiga_paredes" value="finas" class="form-input">
-                  <span>midiendo: <input type="text" name="vejiga_paredes_medida" class="input-small" value="3.7"> mm.</span>
+                  <input type="text" name="vejiga_paredes" value="" class="form-input">
+                  <span>midiendo: <input type="text" name="vejiga_paredes_medida" class="input-small" value=""> mm.</span>
                 </span>
               </div>
               <div class="field-group">
                 <label>Contenido:</label>
-                <input type="text" name="vejiga_contenido" value="anecoico" class="form-input">
+                <input type="text" name="vejiga_contenido" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Jet Urinarios:</label>
-                <input type="text" name="vejiga_jet" value="no visualizados" class="form-input">
+                <input type="text" name="vejiga_jet" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Volumen Miccional:</label>
@@ -669,14 +663,14 @@
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="vejiga_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="vejiga_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-wave-square"></i> GRANDES VASOS ABDOMINALES</h3>
+              <h3><i class="fas fa-wave-square"></i> GRANDES VASOS ABDOMINALES <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
@@ -688,13 +682,13 @@
               <div class="field-group">
                 <label>Vena Cava Inferior:</label>
                 <span class="input-with-unit">
-                  <input type="text" name="vasos_cava" value="de aspecto Habitual" class="form-input">
-                  <span>midiendo: <input type="text" name="vasos_cava_medida" class="input-small" value="16.0"> mm.</span>
+                  <input type="text" name="vasos_cava" value="" class="form-input">
+                  <span>midiendo: <input type="text" name="vasos_cava_medida" class="input-small" value=""> mm.</span>
                 </span>
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="vasos_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="vasos_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
@@ -710,109 +704,109 @@
         <div class="form-content">
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-female"></i> ÚTERO</h3>
+              <h3><i class="fas fa-female"></i> ÚTERO <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Posición uterina:</label>
-                <input type="text" name="utero_posicion" value="antero-versión" class="form-input">
+                <input type="text" name="utero_posicion" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Eco-textura de parénquima:</label>
-                <input type="text" name="utero_ecotextura" value="homogénea" class="form-input">
+                <input type="text" name="utero_ecotextura" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Medidas:</label>
                 <span class="input-with-unit">
-                  <span>longitudinal: <input type="text" name="utero_long" class="input-small" value="6"> cm. antero-posterior: <input type="text" name="utero_ap" class="input-small" value="4.2"> cm. transversal: <input type="text" name="utero_trans" class="input-small" value="2.7"> cm. volumen: <input type="text" name="utero_vol" class="input-small" value="5.29"> cm3.</span>
+                  <span>longitudinal: <input type="text" name="utero_long" class="input-small" value=""> cm. antero-posterior: <input type="text" name="utero_ap" class="input-small" value=""> cm. transversal: <input type="text" name="utero_trans" class="input-small" value=""> cm. volumen: <input type="text" name="utero_vol" class="input-small" value=""> cm3.</span>
                 </span>
               </div>
               <div class="field-group">
                 <label>Endometrio:</label>
                 <span class="input-with-unit">
-                  <input type="text" name="utero_endometrio" value="fino" class="form-input">
+                  <input type="text" name="utero_endometrio" value="" class="form-input">
                   <span>midiendo: <input type="text" name="utero_endometrio_medida" class="input-small" value=""> mm.</span>
                 </span>
               </div>
               <div class="field-group">
                 <label>Fondo de saco de Douglas:</label>
-                <input type="text" name="utero_douglas" value="libre" class="form-input">
+                <input type="text" name="utero_douglas" value="" class="form-input">
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="utero_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="utero_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-wind"></i> TROMPAS DE FALOPIO</h3>
+              <h3><i class="fas fa-wind"></i> TROMPAS DE FALOPIO <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Trompa derecha:</label>
-                <input type="text" name="trompas_derecha" value="no visualizada" class="form-input">
+                <input type="text" name="trompas_derecha" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Trompa izquierda:</label>
-                <input type="text" name="trompas_izquierda" value="no visualizada" class="form-input">
+                <input type="text" name="trompas_izquierda" value="" class="form-input">
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="trompas_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="trompas_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-circle"></i> OVARIO DERECHO</h3>
+              <h3><i class="fas fa-circle"></i> OVARIO DERECHO <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Posición de ovario:</label>
-                <input type="text" name="ovario_der_posicion" value="para-uterino" class="form-input">
+                <input type="text" name="ovario_der_posicion" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Eco-textura de parénquima:</label>
-                <input type="text" name="ovario_der_ecotextura" value="homogénea" class="form-input">
+                <input type="text" name="ovario_der_ecotextura" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Medidas:</label>
                 <span class="input-with-unit">
-                  <span>longitudinal: <input type="text" name="ovario_der_long" class="input-small" value="3.2"> cm. antero-posterior: <input type="text" name="ovario_der_ap" class="input-small" value="2.1"> cm. transversal: <input type="text" name="ovario_der_trans" class="input-small" value="1.6"> cm. volumen: <input type="text" name="ovario_der_vol" class="input-small" value="5.6"> cm3.</span>
+                  <span>longitudinal: <input type="text" name="ovario_der_long" class="input-small" value=""> cm. antero-posterior: <input type="text" name="ovario_der_ap" class="input-small" value=""> cm. transversal: <input type="text" name="ovario_der_trans" class="input-small" value=""> cm. volumen: <input type="text" name="ovario_der_vol" class="input-small" value=""> cm3.</span>
                 </span>
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="ovario_der_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="ovario_der_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
-              <h3><i class="fas fa-circle"></i> OVARIO IZQUIERDO</h3>
+              <h3><i class="fas fa-circle"></i> OVARIO IZQUIERDO <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
             </div>
             <div class="section-body">
               <div class="field-group">
                 <label>Posición de ovario:</label>
-                <input type="text" name="ovario_izq_posicion" value="para-uterino" class="form-input">
+                <input type="text" name="ovario_izq_posicion" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Eco-textura de parénquima:</label>
-                <input type="text" name="ovario_izq_ecotextura" value="homogénea" class="form-input">
+                <input type="text" name="ovario_izq_ecotextura" value="" class="form-input">
               </div>
               <div class="field-group">
                 <label>Medidas:</label>
                 <span class="input-with-unit">
-                  <span>longitudinal: <input type="text" name="ovario_izq_long" class="input-small" value="3.1"> cm. antero-posterior: <input type="text" name="ovario_izq_ap" class="input-small" value="2.0"> cm. transversal: <input type="text" name="ovario_izq_trans" class="input-small" value="1.5"> cm. volumen: <input type="text" name="ovario_izq_vol" class="input-small" value="4.9"> cm3.</span>
+                  <span>longitudinal: <input type="text" name="ovario_izq_long" class="input-small" value=""> cm. antero-posterior: <input type="text" name="ovario_izq_ap" class="input-small" value=""> cm. transversal: <input type="text" name="ovario_izq_trans" class="input-small" value=""> cm. volumen: <input type="text" name="ovario_izq_vol" class="input-small" value=""> cm3.</span>
                 </span>
               </div>
               <div class="field-group observation">
                 <label>OBSERVACIÓN:</label>
-                <input type="text" name="ovario_izq_observacion" value="Ninguna" class="form-input">
+                <input type="text" name="ovario_izq_observacion" value="" class="form-input">
               </div>
             </div>
           </div>
@@ -829,6 +823,10 @@
         <div class="conclusion-body">
           <textarea id="hipotesis" rows="4" placeholder="Ingrese la conclusión del estudio..." class="conclusion-textarea"></textarea>
         </div>
+        <button id="generarPDFBtn" class="btn-primary">
+          <i class="fas fa-file-pdf"></i>
+          Generar PDF
+        </button>
       </div>
     </div>
   </div>
