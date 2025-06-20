@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Crear nueva sección para el feto
       const nuevoFetoSection = document.createElement("div")
       nuevoFetoSection.className = "section-card feto-adicional"
+      nuevoFetoSection.dataset.fetoNumero = contadorFetos;
 
       // Contenido diferente según el tipo de formulario
       if (tipoFormulario === "obstetrica-1er") {
@@ -155,6 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (tipoFormulario === "obstetrica-2do-3er") {
         const nuevaBiometriaSection = document.createElement("div")
         nuevaBiometriaSection.className = "section-card feto-adicional-biometria"
+        nuevaBiometriaSection.dataset.fetoNumero = contadorFetos;
         nuevaBiometriaSection.innerHTML = `
           <div class="section-header">
             <h3><i class="fas fa-ruler"></i> BIOMETRÍA FETAL ${contadorFetos} <button type="button" class="remove-section"><i class="fas fa-trash"></i></button></h3>
@@ -305,17 +307,35 @@ document.addEventListener("DOMContentLoaded", () => {
     const formulario = document.getElementById(formularioId)
 
     if (formulario) {
+      // --- INICIO: LÓGICA DE REINICIO COMPLETO ---
+
+      // 1. Eliminar todos los fetos adicionales de cualquier formulario
+      document.querySelectorAll(".feto-adicional, .feto-adicional-biometria").forEach((el) => {
+        el.remove()
+      })
+
+      // 2. Reiniciar los campos del formulario actual a sus valores por defecto
+      const inputs = formulario.querySelectorAll('input[type="text"]')
+      inputs.forEach((input) => {
+        input.value = input.defaultValue
+      })
+
+      // 3. Mostrar todas las secciones originales que podrían haber sido ocultadas
+      formulario.querySelectorAll(".section-card").forEach((seccion) => {
+        seccion.classList.remove("hidden")
+      })
+
+      // 4. Limpiar el área de conclusión
+      hipotesisTextarea.value = ""
+
+      // --- FIN: LÓGICA DE REINICIO COMPLETO ---
+
       formulario.classList.remove("hidden")
       formularioActual = tipoExamenSeleccionado
       conclusionDiv.classList.remove("hidden")
 
-      // Resetear contador de fetos
+      // Resetear contador de fetos para estar seguros
       contadorFetos = 1
-
-      // Eliminar fetos adicionales previos
-      document.querySelectorAll(".feto-adicional, .feto-adicional-biometria").forEach((el) => {
-        el.remove()
-      })
 
       // Habilitar botón de generar PDF
       document.getElementById("generarPDFBtn").disabled = false
@@ -373,7 +393,7 @@ document.addEventListener("DOMContentLoaded", () => {
       doc.setFontSize(10)
       doc.setFont("helvetica", "normal")
 
-      // Coordenadas alineadas con el encabezado
+      // COORDENADAS EXACTAMENTE ALINEADAS CON EL ENCABEZADO
       const margenIzquierdo = 15  // Mismo margen que usaremos para las secciones
       const anchoTotal = 180      // Mismo ancho que usaremos para las secciones
       const tableY = 40
@@ -532,13 +552,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // Función para agregar contenido del formulario al PDF con rectángulos perfectamente alineados
   function agregarContenidoFormulario(doc, tipo, yPos) {
     const formulario = document.getElementById(`form-${tipo}`)
-    const secciones = formulario.querySelectorAll(".section-card")
     
     // COORDENADAS EXACTAMENTE ALINEADAS CON EL ENCABEZADO
     const margenIzquierdo = 15   // Mismo margen que el encabezado
     const anchoRectangulo = 180  // Mismo ancho que el encabezado
     const margenInterno = 2
 
+    // --- LÓGICA ESPECIAL PARA OBSTÉTRICA 2DO Y 3ER TRIMESTRE ---
+    if (tipo === 'obstetrica-2do-3er') {
+      return agregarContenidoObstetrica2do3er(doc, formulario, yPos, margenIzquierdo, anchoRectangulo, margenInterno)
+    }
+    // --- FIN LÓGICA ESPECIAL ---
+
+    const secciones = formulario.querySelectorAll(".section-card")
     secciones.forEach((seccion) => {
       // Verificar si la sección ha sido eliminada
       if (seccion.classList.contains("hidden")) {
@@ -550,6 +576,121 @@ document.addEventListener("DOMContentLoaded", () => {
         .textContent.trim()
         .replace(/\s*\u00D7$/, "")
       const campos = seccion.querySelectorAll(".field-group")
+
+      // --- AGRUPAR FETOS EN PARÁMETROS OBSTÉTRICOS ---
+      if (tipo === "obstetrica-1er" && titulo.includes("PARÁMETROS OBSTÉTRICOS")) {
+        let contenidoSeccion = [];
+
+        // --- Feto 1 (Original) - Lógica de lectura robusta ---
+        contenidoSeccion.push({ texto: "FETO 1", esTituloFeto: true });
+        
+        const saco_presente = formulario.querySelector('[name="saco_presente"]')?.value || 'No se visualiza';
+        const saco_numero = formulario.querySelector('[name="saco_numero"]')?.value || '--';
+        const saco_dmsg = formulario.querySelector('[name="saco_dmsg"]')?.value || '--';
+        contenidoSeccion.push({ texto: `• Saco Gestacional: ${saco_presente}, Número: ${saco_numero}, midiendo (DMSG): ${saco_dmsg} mm.` });
+
+        const vesicula_presente = formulario.querySelector('[name="vesicula_presente"]')?.value || 'No se visualiza';
+        const vesicula_numero = formulario.querySelector('[name="vesicula_numero"]')?.value || '--';
+        const vesicula_medida = formulario.querySelector('[name="vesicula_medida"]')?.value || '--';
+        contenidoSeccion.push({ texto: `• Vesícula Vitelina: ${vesicula_presente}, Número: ${vesicula_numero}, midiendo: ${vesicula_medida} mm.` });
+        
+        const embrion_numero = formulario.querySelector('[name="embrion_numero_val"]')?.value || '--';
+        contenidoSeccion.push({ texto: `• Embrión: Número: ${embrion_numero}.` });
+
+        const crl_medida = formulario.querySelector('[name="crl_medida"]')?.value || '--';
+        const crl_eg = formulario.querySelector('[name="crl_eg"]')?.value || '--';
+        contenidoSeccion.push({ texto: `• Diámetro céfalo-caudal (CRL): midiendo: ${crl_medida} mm. Edad Gestacional: ${crl_eg} semanas.` });
+        
+        const fc_presente = formulario.querySelector('[name="fc_presente"]')?.value || 'Ausente';
+        const fc_valor = formulario.querySelector('[name="fc_valor"]')?.value || '--';
+        contenidoSeccion.push({ texto: `• Frecuencia Cardíaca: ${fc_presente}, mostrando: ${fc_valor} Lpm.` });
+        
+        const tn_valor = formulario.querySelector('[name="tn_valor"]')?.value || 'No medible';
+        contenidoSeccion.push({ texto: `• Translucencia Nucal (TN): ${tn_valor}` });
+        
+        const hueso_nasal = formulario.querySelector('[name="hueso_nasal"]')?.value || 'No valorable';
+        contenidoSeccion.push({ texto: `• Hueso Nasal: ${hueso_nasal}` });
+        
+        const cuerpo_luteo = formulario.querySelector('[name="cuerpo_luteo"]')?.value || 'No se visualiza';
+        contenidoSeccion.push({ texto: `• Cuerpo Lúteo: ${cuerpo_luteo}` });
+
+        const parametros_observacion = formulario.querySelector('[name="parametros_observacion"]')?.value || 'Ninguna.';
+        contenidoSeccion.push({ texto: `OBSERVACIÓN: ${parametros_observacion}`, esObservacion: true });
+
+        // --- Fetos Adicionales - Lógica de lectura robusta ---
+        const fetosAdicionales = formulario.querySelectorAll(".feto-adicional:not(.hidden)");
+        fetosAdicionales.forEach((fetoSection) => {
+            const fetoNumero = fetoSection.dataset.fetoNumero;
+            if (!fetoNumero) return;
+
+            contenidoSeccion.push({ texto: ' ' }); // Spacer
+            contenidoSeccion.push({ texto: `FETO ${fetoNumero}`, esTituloFeto: true });
+
+            const crl_medida_feto = fetoSection.querySelector(`[name="crl_medida_feto${fetoNumero}"]`)?.value || '--';
+            const crl_eg_feto = fetoSection.querySelector(`[name="crl_eg_feto${fetoNumero}"]`)?.value || '--';
+            contenidoSeccion.push({ texto: `• Diámetro céfalo-caudal (CRL): midiendo: ${crl_medida_feto} mm. Edad Gestacional: ${crl_eg_feto} semanas.` });
+            
+            const fc_presente_feto = fetoSection.querySelector(`[name="fc_presente_feto${fetoNumero}"]`)?.value || 'Ausente';
+            const fc_valor_feto = fetoSection.querySelector(`[name="fc_valor_feto${fetoNumero}"]`)?.value || '--';
+            contenidoSeccion.push({ texto: `• Frecuencia Cardíaca: ${fc_presente_feto}, mostrando: ${fc_valor_feto} Lpm.` });
+            
+            const tn_valor_feto = fetoSection.querySelector(`[name="tn_valor_feto${fetoNumero}"]`)?.value || 'No medible';
+            contenidoSeccion.push({ texto: `• Translucencia Nucal (TN): ${tn_valor_feto}` });
+            
+            const hueso_nasal_feto = fetoSection.querySelector(`[name="hueso_nasal_feto${fetoNumero}"]`)?.value || 'No valorable';
+            contenidoSeccion.push({ texto: `• Hueso Nasal: ${hueso_nasal_feto}` });
+            
+            const feto_observacion = fetoSection.querySelector(`[name="feto${fetoNumero}_observacion"]`)?.value || 'Ninguna.';
+            contenidoSeccion.push({ texto: `OBSERVACIÓN: ${feto_observacion}`, esObservacion: true });
+        });
+        
+        // Calcular altura y dibujar la sección unificada
+        let alturaContenido = 8;
+        contenidoSeccion.forEach(item => {
+            const lineasTexto = doc.splitTextToSize(item.texto, anchoRectangulo - 6);
+            alturaContenido += (lineasTexto.length * 3.8) + (item.esTituloFeto ? 2 : 1.5);
+        });
+        alturaContenido += 6; // Padding
+
+        if (yPos + alturaContenido > 280) {
+          doc.addPage();
+          yPos = 20;
+        }
+
+        doc.setLineWidth(0.5);
+        doc.rect(margenIzquierdo, yPos, anchoRectangulo, alturaContenido);
+        doc.rect(margenIzquierdo, yPos, anchoRectangulo, 8);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(10);
+        doc.text(titulo, margenIzquierdo + margenInterno, yPos + 5.5);
+
+        let yPosContenido = yPos + 12;
+        doc.setFontSize(9);
+
+        contenidoSeccion.forEach(item => {
+            if (item.esTituloFeto) {
+                doc.setFont("helvetica", "bold");
+            } else if (item.esObservacion) {
+                doc.setFont("helvetica", "italic");
+            } else {
+                doc.setFont("helvetica", "normal");
+            }
+            const lineasTexto = doc.splitTextToSize(item.texto, anchoRectangulo - 6);
+            doc.text(lineasTexto, margenIzquierdo + margenInterno, yPosContenido);
+            yPosContenido += (lineasTexto.length * 3.8) + (item.esTituloFeto ? 2 : 1.5);
+             if (item.esTituloFeto || item.esObservacion) doc.setFont("helvetica", "normal")
+        });
+
+        yPos += alturaContenido + 2; // Espacio entre secciones
+        return;
+      }
+      // --- FIN AGRUPAR FETOS ---
+
+      // OMITIR SECCIONES DE FETO ADICIONAL EN OBSTÉTRICA 1ER TRIMESTRE
+      if (tipo === "obstetrica-1er" && seccion.classList.contains("feto-adicional")) {
+        return
+      }
+      // FIN OMITIR
 
       // Verificar si necesitamos una nueva página
       if (yPos > 220) {
@@ -615,7 +756,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
 
       // Agregar padding adicional
-      alturaContenido += 6
+      alturaContenido += 10 // Aumentar padding para más altura
 
       // Verificar si cabe en la página actual
       if (yPos + alturaContenido > 280) {
@@ -641,11 +782,6 @@ document.addEventListener("DOMContentLoaded", () => {
       doc.setFontSize(9)
 
       contenidoSeccion.forEach((item) => {
-        if (yPosContenido > 275) {
-          doc.addPage()
-          yPosContenido = 20
-        }
-
         if (item.esObservacion) {
           doc.setFont("helvetica", "italic")
         } else {
@@ -662,6 +798,169 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     return yPos
+  }
+
+  function dibujarSeccion(doc, titulo, contenido, yPos, margenIzquierdo, anchoRectangulo, margenInterno) {
+    let contenidoSeccion = []
+    let alturaContenido = 8 // Altura del título
+
+    if (Array.isArray(contenido) && typeof contenido[0] === 'object') { // Contenido pre-formateado
+      contenidoSeccion = contenido
+      contenido.forEach(item => {
+        const lineasTexto = doc.splitTextToSize(item.texto, anchoRectangulo - 6)
+        alturaContenido += (lineasTexto.length * 3.8) + (item.esTituloFeto ? 2 : 1.5) // Reducido para compactar
+      })
+    } else { // Contenido como NodeList de .field-group
+      contenido.forEach(campo => {
+        const label = campo.querySelector("label")
+        if (label) {
+          const labelText = label.textContent.trim()
+          let valorTexto = ""
+          const inputsDirectos = campo.querySelectorAll("input:not(.input-small)")
+          inputsDirectos.forEach(input => {
+            if (input.value.trim()) valorTexto += input.value.trim() + " "
+          })
+          const spans = campo.querySelectorAll("span")
+          spans.forEach(span => {
+            let spanTexto = span.textContent
+            const spanInputs = span.querySelectorAll("input")
+            spanInputs.forEach(input => {
+              spanTexto = spanTexto.replace(input.outerHTML, input.value.trim() || '___')
+            })
+            if (spanTexto.trim()) valorTexto += spanTexto.replace(/\s+/g, ' ').trim() + " "
+          })
+          const lineaCompleta = labelText.includes("OBSERVACIÓN") ? `${labelText} ${valorTexto.trim() || "Ninguna"}` : `• ${labelText} ${valorTexto.trim()}`
+          contenidoSeccion.push({ texto: lineaCompleta, esObservacion: labelText.includes("OBSERVACIÓN") })
+          const lineasTexto = doc.splitTextToSize(lineaCompleta, anchoRectangulo - 6)
+          alturaContenido += lineasTexto.length * 3.8 + 1.5 // Reducido para compactar
+        }
+      })
+    }
+    
+    alturaContenido += 4 // Padding reducido
+    if (yPos + alturaContenido > 280) {
+      doc.addPage()
+      yPos = 20
+    }
+
+    doc.setLineWidth(0.5)
+    doc.rect(margenIzquierdo, yPos, anchoRectangulo, alturaContenido)
+    doc.rect(margenIzquierdo, yPos, anchoRectangulo, 8)
+    doc.setFont("helvetica", "bold")
+    doc.setFontSize(10)
+    doc.text(titulo, margenIzquierdo + margenInterno, yPos + 5.5)
+
+    let yPosContenido = yPos + 12
+    doc.setFont("helvetica", "normal")
+    doc.setFontSize(9)
+
+    contenidoSeccion.forEach(item => {
+      const lineasTexto = doc.splitTextToSize(item.texto, anchoRectangulo - 6)
+      
+      if (item.esTituloFeto) doc.setFont("helvetica", "bold")
+      else if (item.esObservacion) doc.setFont("helvetica", "italic")
+      
+      doc.text(lineasTexto, margenIzquierdo + margenInterno, yPosContenido)
+      // Usar un espaciado consistente y reducido
+      const espaciadoLinea = (lineasTexto.length * 3.8) + (item.esTituloFeto ? 2 : 1.5)
+      yPosContenido += espaciadoLinea
+      
+      if (item.esTituloFeto || item.esObservacion) doc.setFont("helvetica", "normal")
+    })
+    
+    return yPos + alturaContenido + 2 // Espacio entre secciones reducido
+  }
+
+  function agregarContenidoObstetrica2do3er(doc, formulario, yPos, margenIzquierdo, anchoRectangulo, margenInterno) {
+    // Contar el número total de fetos (el original + los adicionales visibles)
+    const numeroDeFetos = formulario.querySelectorAll('.feto-adicional:not(.hidden)').length + 1;
+
+    for (let i = 1; i <= numeroDeFetos; i++) {
+        const isOriginal = i === 1;
+        let fetoContent = []; // Contenido para este feto específico
+        
+        let presentacion, situacion, posicion, movimientos, fc_valor, fetoObservacion;
+        let dbp, cc, ca, lf, eg, peso, biometriaObservacion;
+
+        if (isOriginal) {
+            // Leer datos del Feto 1 (secciones originales)
+            presentacion = formulario.querySelector(`[name="feto_presentacion"]`)?.value || '-';
+            situacion = formulario.querySelector(`[name="feto_situacion"]`)?.value || '-';
+            posicion = formulario.querySelector(`[name="feto_posicion"]`)?.value || '-';
+            movimientos = formulario.querySelector(`[name="feto_movimientos"]`)?.value || '-';
+            fc_valor = formulario.querySelector(`[name="feto_fc_valor"]`)?.value || '--';
+            fetoObservacion = formulario.querySelector(`[name="feto_observacion"]`)?.value || 'Ninguna.';
+            
+            dbp = formulario.querySelector(`[name="biometria_dbp"]`)?.value || '--';
+            cc = formulario.querySelector(`[name="biometria_cc"]`)?.value || '--';
+            ca = formulario.querySelector(`[name="biometria_ca"]`)?.value || '--';
+            lf = formulario.querySelector(`[name="biometria_lf"]`)?.value || '--';
+            eg = formulario.querySelector(`[name="biometria_eg"]`)?.value || '--';
+            peso = formulario.querySelector(`[name="biometria_peso"]`)?.value || '--';
+            biometriaObservacion = formulario.querySelector(`[name="biometria_observacion"]`)?.value || 'Ninguna.';
+        } else {
+            // Leer datos de Fetos Adicionales (2, 3, etc.)
+            const fetoSection = formulario.querySelector(`.feto-adicional[data-feto-numero="${i}"]`);
+            const biometriaSection = formulario.querySelector(`.feto-adicional-biometria[data-feto-numero="${i}"]`);
+
+            if (!fetoSection || !biometriaSection) continue; // Si no se encuentra la sección, saltar
+
+            presentacion = fetoSection.querySelector(`[name="feto${i}_presentacion"]`)?.value || '-';
+            situacion = fetoSection.querySelector(`[name="feto${i}_situacion"]`)?.value || '-';
+            posicion = fetoSection.querySelector(`[name="feto${i}_posicion"]`)?.value || '-';
+            movimientos = fetoSection.querySelector(`[name="feto${i}_movimientos"]`)?.value || '-';
+            fc_valor = fetoSection.querySelector(`[name="feto${i}_fc_valor"]`)?.value || '--';
+            fetoObservacion = fetoSection.querySelector(`[name="feto${i}_observacion"]`)?.value || 'Ninguna.';
+            
+            dbp = biometriaSection.querySelector(`[name="biometria${i}_dbp"]`)?.value || '--';
+            cc = biometriaSection.querySelector(`[name="biometria${i}_cc"]`)?.value || '--';
+            ca = biometriaSection.querySelector(`[name="biometria${i}_ca"]`)?.value || '--';
+            lf = biometriaSection.querySelector(`[name="biometria${i}_lf"]`)?.value || '--';
+            eg = biometriaSection.querySelector(`[name="biometria${i}_eg"]`)?.value || '--';
+            peso = biometriaSection.querySelector(`[name="biometria${i}_peso"]`)?.value || '--';
+            biometriaObservacion = biometriaSection.querySelector(`[name="biometria${i}_observacion"]`)?.value || 'Ninguna.';
+        }
+
+        // Construir contenido para el cuadro de este feto
+        fetoContent.push({ texto: `• Presentación Fetal: ${presentacion}` });
+        fetoContent.push({ texto: `• Situación Fetal: ${situacion}` });
+        fetoContent.push({ texto: `• Posición Fetal: ${posicion}` });
+        fetoContent.push({ texto: `• Movimientos Fetales: ${movimientos}` });
+        fetoContent.push({ texto: `• Frecuencia Cardíaca: ${fc_valor} Lpm` });
+        fetoContent.push({ texto: `OBSERVACIÓN (Feto): ${fetoObservacion}`, esObservacion: true });
+        fetoContent.push({ texto: ' ' }); 
+        fetoContent.push({ texto: `• Diámetro Biparietal (DBP): ${dbp} mm` });
+        fetoContent.push({ texto: `• Circunferencia Craneana (CC): ${cc} mm` });
+        fetoContent.push({ texto: `• Circunferencia Abdominal (CA): ${ca} mm` });
+        fetoContent.push({ texto: `• Longitud de Fémur (LF): ${lf} mm` });
+        fetoContent.push({ texto: `• Edad Gestacional: ${eg} semanas` });
+        fetoContent.push({ texto: `• Peso Fetal Estimado: ${peso} g` });
+        fetoContent.push({ texto: `OBSERVACIÓN (Biometría): ${biometriaObservacion}`, esObservacion: true });
+
+        // Determinar el título de la sección
+        const tituloSeccion = numeroDeFetos > 1 ? `INFORME FETAL (FETO ${i})` : 'INFORME FETAL';
+      
+        // Dibujar una sección separada para este feto.
+        // La función dibujarSeccion se encargará del salto de página si es necesario.
+        yPos = dibujarSeccion(doc, tituloSeccion, fetoContent, yPos, margenIzquierdo, anchoRectangulo, margenInterno);
+    }
+    
+    // Dibujar las demás secciones
+    const secciones = formulario.querySelectorAll(".section-card");
+    const titulosOtrasSecciones = ["PLACENTA", "CORDÓN UMBILICAL", "LÍQUIDO AMNIÓTICO", "ÚTERO", "ANEXOS"];
+    secciones.forEach(seccion => {
+      // Omitir las secciones de feto/biometría adicionales para no duplicarlas
+      if (seccion.classList.contains('feto-adicional') || seccion.classList.contains('feto-adicional-biometria')) {
+        return;
+      }
+      const titulo = seccion.querySelector("h3")?.textContent.trim().toUpperCase().replace(/\s*\u00D7$/, "");
+      if (titulosOtrasSecciones.includes(titulo) && !seccion.classList.contains("hidden")) {
+        const campos = seccion.querySelectorAll(".field-group");
+        yPos = dibujarSeccion(doc, titulo, campos, yPos, margenIzquierdo, anchoRectangulo, margenInterno);
+      }
+    });
+    
+    return yPos;
   }
 
   // Función para formatear la fecha
