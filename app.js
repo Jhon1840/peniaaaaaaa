@@ -451,11 +451,14 @@ document.addEventListener("DOMContentLoaded", () => {
       doc.text(lineasHipotesis, margenIzquierdo + 2, yPos + 12)
 
       // Agregar espacio para firma
-      yPos += 40
+      yPos += 45 // Más espacio desde el cuadro superior
       doc.text("FIRMA Y SELLO", doc.internal.pageSize.getWidth() / 2, yPos, { align: "center" })
-      doc.text("MÉDICO ULTRASONOGRAFISTA", doc.internal.pageSize.getWidth() / 2, yPos + 10, {
+      doc.text("MÉDICO ULTRASONOGRAFISTA", doc.internal.pageSize.getWidth() / 2, yPos + 7, {
         align: "center",
       })
+
+      doc.setFont("helvetica", "bold")
+      doc.text(doctor, doc.internal.pageSize.getWidth() / 2, yPos + 14, { align: "center" })
 
       // Guardar el PDF
       doc.save(`${paciente || "reporte"}_${tipoInformeTexto.replace(/\s+/g, "_")}.pdf`)
